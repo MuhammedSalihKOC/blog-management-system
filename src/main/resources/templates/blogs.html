@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Blog Listesi</title>
+  <meta charset="UTF-8">
+</head>
+<body>
+<h1>Blog Listesi</h1>
+<table border="1">
+  <tr>
+    <th>ID</th>
+    <th>Başlık</th>
+    <th>Kategori</th>
+    <th>Oluşturulma Tarihi</th>
+  </tr>
+  <tr th:each="blog : ${blogs}">
+    <td th:text="${blog.id}"></td>
+    <td th:text="${blog.title}"></td>
+    <td th:text="${blog.category}"></td>
+    <td th:text="${blog.createdAt}"></td>
+  </tr>
+</table>
+</body>
+</html>

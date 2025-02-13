@@ -3,6 +3,7 @@
 <head>
   <title>Blog Listesi</title>
   <meta charset="UTF-8">
+  <link rel="stylesheet" href="css\bootstrap.css">
 </head>
 <body>
 <h1>Blog Listesi</h1>
@@ -18,7 +19,11 @@
     <td th:text="${blog.title}"></td>
     <td th:text="${blog.category}"></td>
     <td th:text="${blog.createdAt}"></td>
+    <td>
+      <a th:href="@{/blogs/edit/{id}(id=${blog.id})}">Düzenle</a>
+    </td>
   </tr>
 </table>
+<a th:href="@{/blogs/add}"><button>Yeni Blog Ekle</button></a>
 </body>
 </html>

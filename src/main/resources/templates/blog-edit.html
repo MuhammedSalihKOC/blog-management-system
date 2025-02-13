@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Blog Güncelle</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="css\bootstrap.css">
+</head>
+<body>
+<h1 th:text="${'Blog Güncelle'}"></h1>
+
+<form th:action="@{/blogs/update/{id}(id=${blog.id})}" th:object="${blog}" method="post">
+    <input type="hidden" th:field="*{id}"/>
+    <input type="hidden" th:field="*{authorId}" />
+
+    <label for="title">Başlık:</label>
+    <input type="text" id="title" th:field="*{title}" required/><br/><br/>
+
+    <label for="content">İçerik:</label>
+    <textarea id="content" th:field="*{content}" required></textarea><br/><br/>
+
+    <label for="category">Kategori:</label>
+    <select id="category" th:field="*{category}">
+        <option value="TEKNOLOJI">Teknoloji</option>
+        <option value="SPOR">Spor</option>
+        <option value="SAGLIK">Sağlık</option>
+        <option value="EDEBIYAT">Edebiyat</option>
+    </select><br/><br/>
+
+    <button type="submit">Kaydet</button>
+</form>
+
+<br/>
+<a href="/blogs">Blog Listesine Dön</a>
+</body>
+</html>

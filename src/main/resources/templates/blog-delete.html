@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Blog Silme Onayı | Blog Yönetim Sistemi</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+</head>
+<body class="bg-light">
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
+        <a class="navbar-brand" href="/">Blog Yönetimi</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/blogs">Tüm Bloglar</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link btn btn-primary text-white px-3" href="/blogs/add">Yeni Blog Ekle</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- Silme Onayı İçeriği -->
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-lg-6 mx-auto">
+            <div class="card shadow p-4 text-center">
+                <h2 class="text-danger">Blogu Silmek Üzeresiniz!</h2>
+                <p class="text-muted">Bu işlem geri alınamaz. Aşağıdaki blogu silmek istediğinizden emin misiniz?</p>
+
+                <div class="border p-3 mb-3 bg-light">
+                    <h4 th:text="${blog.title}" class="fw-bold"></h4>
+                    <p th:text="'Kategori: ' + ${blog.category}" class="text-muted"></p>
+                    <p th:text="'Yazar: ' + ${blog.authorId}" class="text-muted"></p>
+                    <p th:text="'Oluşturulma Tarihi: ' + ${blog.createdAt}" class="text-muted"></p>
+                </div>
+                <form>
+                <a th:href="@{/blogs/deleted/{id}(id=${blog.id})}" class="btn btn-danger">Evet, Sil</a>
+                <a th:href="@{/blogs/{id}(id=${blog.id})}" class="btn btn-secondary">İptal</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Footer -->
+<footer class="bg-dark text-white text-center py-3 mt-5 sticky-bottom">
+    <p>&copy; 2025 Blog Yönetim Sistemi. Tüm hakları saklıdır.</p>
+</footer>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>

@@ -1,6 +1,7 @@
 package com.blog.controller;
 
 import com.blog.model.Blog;
+import com.blog.model.User;
 import com.blog.service.IBlogService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -19,8 +20,10 @@ public class BlogController {
         this.blogService = blogService;
     }
     @GetMapping("/")
-    public String home() {
-        return "index";
+    public String home(Model model) {
+        List<Blog> blogs = blogService.getAll();
+        model.addAttribute("blogs", blogs);
+        return "main";
     }
     @GetMapping("/blogs")
     public String listBlogs(Model model) {
@@ -31,8 +34,8 @@ public class BlogController {
     @GetMapping("/blogs/{id}")
     public String listBlogs(@PathVariable int id, Model model) {
         Blog blog = blogService.getById(id);
-        model.addAttribute("blogs", blog);
-        return "blogs";
+        model.addAttribute("blog", blog);
+        return "blog";
     }
     @GetMapping("blogs/add")
     public String blogAdder(Model model) {
@@ -52,12 +55,24 @@ public class BlogController {
         blog.setAuthorId(existingBlog.getAuthorId());
         blog.setCreatedAt(LocalDateTime.now());
         blogService.update(blog);
-        return "redirect:/blogs";
+        return "redirect:/blogs/" + id ;
     }
     @GetMapping("/blogs/edit/{id}")
     public String editBlog(@PathVariable int id, Model model) {
         Blog blog = blogService.getById(id);
         model.addAttribute("blog", blog);
         return "blog-edit";
+    }
+    @GetMapping("/blogs/delete/{id}")
+    public String showDeleteConfirmPage(@PathVariable int id, Model model) {
+        Blog blog = blogService.getById(id);
+        model.addAttribute("blog", blog);
+        return "blog-delete";
+    }
+    @GetMapping("/blogs/deleted/{id}")
+    public String deleteBlog(@PathVariable int id) {
+        Blog deleteToBlog = blogService.getById(id);
+        blogService.delete(deleteToBlog);
+        return "redirect:/blogs";
     }
 }

@@ -1,29 +1,51 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-  <title>Blog Listesi</title>
-  <meta charset="UTF-8">
-  <link rel="stylesheet" href="css\bootstrap.css">
+    <title>Blog Listesi</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
 </head>
-<body>
-<h1>Blog Listesi</h1>
-<table border="1">
-  <tr>
-    <th>ID</th>
-    <th>Başlık</th>
-    <th>Kategori</th>
-    <th>Oluşturulma Tarihi</th>
-  </tr>
-  <tr th:each="blog : ${blogs}">
-    <td th:text="${blog.id}"></td>
-    <td th:text="${blog.title}"></td>
-    <td th:text="${blog.category}"></td>
-    <td th:text="${blog.createdAt}"></td>
-    <td>
-      <a th:href="@{/blogs/edit/{id}(id=${blog.id})}">Düzenle</a>
-    </td>
-  </tr>
-</table>
-<a th:href="@{/blogs/add}"><button>Yeni Blog Ekle</button></a>
+<body class="bg-light">
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
+        <a class="navbar-brand" href="/">Blog Yönetimi</a>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/blogs">Tüm Bloglar</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/blogs/add">Yeni Blog Ekle</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container mt-4">
+    <h1 class="text-center mb-4">Blog Listesi</h1>
+    <div class="card shadow p-3">
+        <table class="table table-hover">
+            <thead class="table-dark">
+            <tr>
+                <th>Başlık</th>
+                <th>Tarih</th>
+                <th>Kategori</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="blog : ${blogs}">
+                <td>
+                    <a th:href="@{/blogs/{id}(id=${blog.id})}" class="text-dark fw-bold" th:text="${blog.title}"></a>
+                </td>
+                <td th:text="${blog.createdAt}"></td>
+                <td th:text="${blog.category}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
 </body>
 </html>

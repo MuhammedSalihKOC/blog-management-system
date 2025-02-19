@@ -11,6 +11,10 @@
     <div class="container">
         <a class="navbar-brand" href="/">Blog Yönetimi</a>
         <div class="collapse navbar-collapse" id="navbarNav">
+            <form th:action="@{/blogs/search}" method="get" class="d-flex mx-auto">
+                <input type="text" name="keyword" class="form-control me-2" placeholder="Blog Ara..." required>
+                <button type="submit" class="btn btn-dark">Ara</button>
+            </form>
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item">
                     <a class="nav-link" href="/blogs">Tüm Bloglar</a>
@@ -22,7 +26,9 @@
         </div>
     </div>
 </nav>
-
+<div th:if="${keyword}" class="alert alert-info text-center">
+    <p th:text="'Arama Sonuçları: ' + ${keyword}"></p>
+</div>
 <div class="container mt-4">
     <h1 class="text-center mb-4">Blog Listesi</h1>
     <div class="card shadow p-3">

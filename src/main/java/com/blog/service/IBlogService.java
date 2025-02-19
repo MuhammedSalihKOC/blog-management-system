@@ -10,4 +10,7 @@ public interface IBlogService {
     void update(Blog blog);
     void delete(Blog blog);
     Blog getById(int id);
+
+    List<Blog> searchBlogs(String keyword);
+
 }

@@ -75,4 +75,11 @@ public class BlogController {
         blogService.delete(deleteToBlog);
         return "redirect:/blogs";
     }
+    @GetMapping("/blogs/search")
+    public String searchBlogs(@RequestParam("keyword") String keyword, Model model){
+        List<Blog> searchResults = blogService.searchBlogs(keyword);
+        model.addAttribute("blogs", searchResults);
+        model.addAttribute("keyword", keyword);
+        return "blogs";
+    }
 }

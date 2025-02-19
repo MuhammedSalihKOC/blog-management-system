@@ -20,19 +20,19 @@ public class BlogManager implements IBlogService{
     @Override
     @Transactional
     public List<Blog> getAll() {
-        return this.blogDal.getAll();
+        return this.blogDal.findAll();
     }
 
     @Override
     @Transactional
     public void add(Blog blog) {
-        this.blogDal.add(blog);
+        this.blogDal.save(blog);
     }
 
     @Override
     @Transactional
     public void update(Blog blog) {
-        this.blogDal.update(blog);
+        this.blogDal.save(blog);
     }
 
     @Override
@@ -44,6 +44,10 @@ public class BlogManager implements IBlogService{
     @Override
     @Transactional
     public Blog getById(int id) {
-        return this.blogDal.getById(id);
+        return blogDal.findById((long) id).orElse(null);    }
+
+    @Override
+    public List<Blog> searchBlogs(String keyword) {
+        return this.blogDal.findByTitleContainingIgnoreCase(keyword);
     }
 }

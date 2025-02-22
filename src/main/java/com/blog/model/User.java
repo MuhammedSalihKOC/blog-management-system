@@ -20,6 +20,11 @@ public class User {
     @Column(name="created_at")
     private LocalDateTime createdAt;
 
+    @PrePersist
+    protected void onCreate() {
+        this.createdAt = LocalDateTime.now();
+    }
+
     public long getId() {
         return id;
     }

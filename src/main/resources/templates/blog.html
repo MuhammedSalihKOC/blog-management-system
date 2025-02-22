@@ -21,7 +21,19 @@
           <a class="nav-link" href="/blogs">Tüm Bloglar</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/blogs/add">Yeni Blog Ekle</a>
+          <div th:if="${session.loggedInUser}">
+            <a class="nav-link" href="/blogs/add">Yeni Blog Ekle</a>
+          </div>
+        </li>
+        <li class="nav-item">
+          <div th:unless="${session.loggedInUser}">
+            <a class="nav-link" href="/user/login">Giriş Yap</a>
+          </div>
+        </li>
+        <li class="nav-item">
+          <div th:if="${session.loggedInUser}">
+            <a class="nav-link" href="/user/logout">Çıkış Yap</a>
+          </div>
         </li>
       </ul>
     </div>
@@ -44,7 +56,7 @@
 
       <div class="mt-4 d-flex justify-content-between">
         <a href="/blogs" class="btn btn-secondary">← Tüm Bloglara Dön</a>
-        <div>
+        <div th:if="${session.loggedInUser}">
           <a th:href="@{/blogs/edit/{id}(id=${blog.id})}" class="btn btn-warning">Düzenle</a>
           <a th:href="@{/blogs/delete/{id}(id=${blog.id})}" class="btn btn-danger">Sil</a>
         </div>

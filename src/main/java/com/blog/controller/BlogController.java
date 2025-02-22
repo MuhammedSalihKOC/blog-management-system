@@ -1,8 +1,8 @@
 package com.blog.controller;
 
 import com.blog.model.Blog;
-import com.blog.model.User;
 import com.blog.service.IBlogService;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,6 +19,7 @@ public class BlogController {
     public BlogController(IBlogService blogService) {
         this.blogService = blogService;
     }
+
     @GetMapping("/")
     public String home(Model model) {
         List<Blog> blogs = blogService.getAll();
@@ -38,19 +39,28 @@ public class BlogController {
         return "blog";
     }
     @GetMapping("blogs/add")
-    public String blogAdder(Model model) {
+    public String blogAdder(Model model, HttpSession session) {
+        if (session.getAttribute("loggedInUser") == null) {
+            return "redirect:/user/login";
+        }
         model.addAttribute("blog", new Blog());
         return "blog-add";
     }
     @PostMapping("/blogs/add/succeeded")
-    public String addBlog(@ModelAttribute Blog blog) {
+    public String addBlog(@ModelAttribute Blog blog, HttpSession session) {
+        if (session.getAttribute("loggedInUser") == null) {
+            return "redirect:/user/login";
+        }
         blog.setAuthorId(1L);
         blog.setCreatedAt(LocalDateTime.now());
         blogService.add(blog);
         return "redirect:/blogs";
     }
     @PostMapping("/blogs/update/{id}")
-    public String updateBlog(@PathVariable int id, @ModelAttribute Blog blog) {
+    public String updateBlog(@PathVariable int id, @ModelAttribute Blog blog, HttpSession session) {
+        if (session.getAttribute("loggedInUser") == null) {
+            return "redirect:/user/login";
+        }
         Blog existingBlog = blogService.getById(id);
         blog.setAuthorId(existingBlog.getAuthorId());
         blog.setCreatedAt(LocalDateTime.now());
@@ -58,19 +68,28 @@ public class BlogController {
         return "redirect:/blogs/" + id ;
     }
     @GetMapping("/blogs/edit/{id}")
-    public String editBlog(@PathVariable int id, Model model) {
+    public String editBlog(@PathVariable int id, Model model, HttpSession session) {
+        if (session.getAttribute("loggedInUser") == null) {
+            return "redirect:/user/login";
+        }
         Blog blog = blogService.getById(id);
         model.addAttribute("blog", blog);
         return "blog-edit";
     }
     @GetMapping("/blogs/delete/{id}")
-    public String showDeleteConfirmPage(@PathVariable int id, Model model) {
+    public String showDeleteConfirmPage(@PathVariable int id, Model model, HttpSession session) {
+        if (session.getAttribute("loggedInUser") == null) {
+            return "redirect:/user/login";
+        }
         Blog blog = blogService.getById(id);
         model.addAttribute("blog", blog);
         return "blog-delete";
     }
     @GetMapping("/blogs/deleted/{id}")
-    public String deleteBlog(@PathVariable int id) {
+    public String deleteBlog(@PathVariable int id, HttpSession session) {
+        if (session.getAttribute("loggedInUser") == null) {
+            return "redirect:/user/login";
+        }
         Blog deleteToBlog = blogService.getById(id);
         blogService.delete(deleteToBlog);
         return "redirect:/blogs";

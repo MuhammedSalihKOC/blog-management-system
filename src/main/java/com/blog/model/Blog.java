@@ -18,12 +18,14 @@ public class Blog {
     @Enumerated(EnumType.STRING)
     @Column(name="category")
     private BlogCategory category;
-    @Column(name="author_id")
-    private Long authorId;
     @Column(name="created_at")
     private LocalDateTime createdAt;
     @Column(name="updated_at")
     private LocalDateTime updatedAt;
+
+    @ManyToOne
+    @JoinColumn(name = "author_id")
+    private User author;
 
     @PrePersist
     protected void onCreate() {
@@ -68,13 +70,6 @@ public class Blog {
         this.category = category;
     }
 
-    public Long getAuthorId() {
-        return authorId;
-    }
-
-    public void setAuthorId(Long authorId) {
-        this.authorId = authorId;
-    }
 
     public LocalDateTime getCreatedAt() {
         return createdAt;
@@ -90,5 +85,13 @@ public class Blog {
 
     public void setUpdatedAt(LocalDateTime updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    public User getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(User author) {
+        this.author = author;
     }
 }

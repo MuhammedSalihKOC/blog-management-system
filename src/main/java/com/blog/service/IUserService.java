@@ -7,5 +7,7 @@ import java.util.Optional;
 
 public interface IUserService {
     public String register(User user);
-    public boolean login(String username, String password);
+    public User login(String username, String password);
+    User findByUsername(String username);
+
 }

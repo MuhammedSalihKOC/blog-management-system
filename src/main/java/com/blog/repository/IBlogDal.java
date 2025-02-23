@@ -10,4 +10,5 @@ public interface IBlogDal extends JpaRepository<Blog, Long> {
     Blog save(Blog blog);
     void delete(Blog blog);
     List<Blog> findByTitleContainingIgnoreCase(String keyword);
+
 }

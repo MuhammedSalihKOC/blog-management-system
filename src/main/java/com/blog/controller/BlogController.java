@@ -1,23 +1,26 @@
 package com.blog.controller;
 
 import com.blog.model.Blog;
+import com.blog.model.User;
 import com.blog.service.IBlogService;
+import com.blog.service.IUserService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Controller
 public class BlogController {
     private IBlogService blogService;
+    private IUserService userService;
 
     @Autowired
-    public BlogController(IBlogService blogService) {
+    public BlogController(IBlogService blogService, IUserService userService) {
         this.blogService = blogService;
+        this.userService = userService;
     }
 
     @GetMapping("/")
@@ -51,7 +54,7 @@ public class BlogController {
         if (session.getAttribute("loggedInUser") == null) {
             return "redirect:/user/login";
         }
-        blog.setAuthorId(1L);
+        blog.setAuthor((User)session.getAttribute("loggedInUser"));
         blog.setCreatedAt(LocalDateTime.now());
         blogService.add(blog);
         return "redirect:/blogs";
@@ -62,7 +65,7 @@ public class BlogController {
             return "redirect:/user/login";
         }
         Blog existingBlog = blogService.getById(id);
-        blog.setAuthorId(existingBlog.getAuthorId());
+        blog.setAuthor(existingBlog.getAuthor());
         blog.setCreatedAt(LocalDateTime.now());
         blogService.update(blog);
         return "redirect:/blogs/" + id ;

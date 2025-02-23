@@ -2,7 +2,6 @@ package com.blog.controller;
 
 import com.blog.model.User;
 import com.blog.service.IUserService;
-import com.blog.service.UserManager;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -39,9 +38,9 @@ public class UserController {
 
     @PostMapping("/login")
     public String loginUser(@RequestParam String username, @RequestParam String password, HttpSession session, Model model) {
-        boolean success = userService.login(username, password);
-        if (success) {
-            session.setAttribute("loggedInUser", username);
+        User user = userService.login(username, password);
+        if (user != null) {
+            session.setAttribute("loggedInUser", user);
             return "redirect:/blogs";
         } else {
             model.addAttribute("error", "Geçersiz kullanıcı adı veya şifre.");
